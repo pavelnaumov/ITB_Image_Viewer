@@ -2,31 +2,35 @@
   "name": "itb_image_viewer",
   "version": "1.0.0",
   "description": "",
-  "main": "./lib/viewer/index.js",
+  "main": "index.js",
   "files": [
     "lib/**/*"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "format": "prettier --write \"./**/*.ts\" \"./**/*.js\"",
     "lint": "tslint -p tsconfig.json",
     "prepare": "npm run build",
-    "prepublishOnly" : "npm test && npm run lint",
-    "preversion" : "npm run lint",
-    "version" : "npm run format && git add -A src",
-    "postversion" : "git push && git push --tags"
-  },
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "prettier": "^2.0.1",
-    "tslint": "^6.1.0",
-    "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.8.3"
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion": "npm run lint",
+    "postversion": "git push && git push --tags"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/pavelnaumov/ITB_Image_Viewer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pavelnaumov/ITB_Image_Viewer/issues"
+  },
+  "homepage": "https://github.com/pavelnaumov/ITB_Image_Viewer#readme",
+  "devDependencies": {
+    "metro-react-native-babel-preset": "^0.59.0",
+    "prettier": "^2.0.1",
+    "react": "^16.13.1",
+    "tslint": "^6.1.0",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.8.3"
   }
 }

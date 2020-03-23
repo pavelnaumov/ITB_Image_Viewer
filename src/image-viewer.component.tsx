@@ -1,6 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
-
 import {
   Animated,
   CameraRoll,
@@ -16,7 +15,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import ImageZoom from '../pan-zoom/index';
+import ImageZoom from './pan-zoom/index';
 import styles from './image-viewer.style';
 import {IImageInfo, IImageSize, Props, State} from './image-viewer.type';
 
