@@ -1,11 +1,15 @@
 {
   "compilerOptions": {
-    "target": "es2015",
-    "module": "commonjs",
     "declaration": true,
-    "jsx": "preserve",
-    "outDir": "./lib",
+    "module": "commonjs",
     "strict": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "jsx": "react-native",
+    "lib": ["dom", "es5", "es6", "scripthost"],
+    "target": "es5",
+    "outDir": "./lib",
+    "sourceMap": true,
     "skipLibCheck": true
   },
   "include": ["src"],
