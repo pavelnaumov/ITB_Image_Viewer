@@ -2,12 +2,12 @@
   "name": "itb_image_viewer",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "files": [
     "lib/**/*"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "lint": "tslint -p tsconfig.json",
     "prepare": "npm run build",
@@ -26,11 +26,18 @@
   },
   "homepage": "https://github.com/pavelnaumov/ITB_Image_Viewer#readme",
   "devDependencies": {
+    "@types/react": "*",
+    "@types/react-native": "^0.61.23",
     "metro-react-native-babel-preset": "^0.59.0",
     "prettier": "^2.0.1",
     "react": "^16.13.1",
+    "react-native": "^0.61.5",
     "tslint": "^6.1.0",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.8.3"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
   }
 }
