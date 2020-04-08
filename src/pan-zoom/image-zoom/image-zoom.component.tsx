@@ -11,7 +11,7 @@ import {
   Alert,
 } from 'react-native';
 import styles from './image-zoom.style';
-import { ICenterOn, Props, State } from './image-zoom.type';
+import {ICenterOn, Props, State} from './image-zoom.type';
 
 export default class ImageViewer extends React.Component<Props, State> {
   public static defaultProps = new Props();
@@ -84,10 +84,16 @@ export default class ImageViewer extends React.Component<Props, State> {
         }
 
         if (evt.nativeEvent.changedTouches.length > 1) {
-          const centerX = (evt.nativeEvent.changedTouches[0].pageX + evt.nativeEvent.changedTouches[1].pageX) / 2;
+          const centerX =
+            (evt.nativeEvent.changedTouches[0].pageX +
+              evt.nativeEvent.changedTouches[1].pageX) /
+            2;
           this.centerDiffX = centerX - this.props.cropWidth / 2;
 
-          const centerY = (evt.nativeEvent.changedTouches[0].pageY + evt.nativeEvent.changedTouches[1].pageY) / 2;
+          const centerY =
+            (evt.nativeEvent.changedTouches[0].pageY +
+              evt.nativeEvent.changedTouches[1].pageY) /
+            2;
           this.centerDiffY = centerY - this.props.cropHeight / 2;
         } // calculate long press
 
@@ -103,7 +109,10 @@ export default class ImageViewer extends React.Component<Props, State> {
 
         if (evt.nativeEvent.changedTouches.length <= 1) {
           // one finger case
-          if (new Date().getTime() - this.lastClickTime < (this.props.doubleClickInterval || 0)) {
+          if (
+            new Date().getTime() - this.lastClickTime <
+            (this.props.doubleClickInterval || 0)
+          ) {
             // thinks a double click is triggered
             this.lastClickTime = 0;
             if (this.props.onDoubleClick) {
@@ -133,9 +142,14 @@ export default class ImageViewer extends React.Component<Props, State> {
                 this.scale = 2; // scale diff
 
                 const diffScale = this.scale - beforeScale; // Find the displacement of the center point of the two hands from the center of the page // moving position
-                this.positionX = ((this.props.cropWidth / 2 - this.doubleClickX) * diffScale) / this.scale;
+                this.positionX =
+                  ((this.props.cropWidth / 2 - this.doubleClickX) * diffScale) /
+                  this.scale;
 
-                this.positionY = ((this.props.cropHeight / 2 - this.doubleClickY) * diffScale) / this.scale;
+                this.positionY =
+                  ((this.props.cropHeight / 2 - this.doubleClickY) *
+                    diffScale) /
+                  this.scale;
               }
 
               this.imageDidMove('centerOn');
@@ -189,7 +203,10 @@ export default class ImageViewer extends React.Component<Props, State> {
           this.horizontalWholeCounter += diffX;
           this.verticalWholeCounter += diffY;
 
-          if (Math.abs(this.horizontalWholeCounter) > 5 || Math.abs(this.verticalWholeCounter) > 5) {
+          if (
+            Math.abs(this.horizontalWholeCounter) > 5 ||
+            Math.abs(this.verticalWholeCounter) > 5
+          ) {
             // 如果位移超出手指范围，取消长按监听
             clearTimeout(this.longPressTimeout);
           }
@@ -269,7 +286,10 @@ export default class ImageViewer extends React.Component<Props, State> {
                 // 但是横向不能出现黑边
                 // but no black edges appear in the horizontal direction
                 // 横向能容忍的绝对值
-                const horizontalMax = (this.props.imageWidth * this.scale - this.props.cropWidth) / 2 / this.scale;
+                const horizontalMax =
+                  (this.props.imageWidth * this.scale - this.props.cropWidth) /
+                  2 /
+                  this.scale;
                 if (this.positionX < -horizontalMax) {
                   // 超越了左边临界点，还在继续向左移动
                   // Exceeded the left critical point and continued to move left
@@ -296,17 +316,26 @@ export default class ImageViewer extends React.Component<Props, State> {
 
               // 溢出量不会超过设定界限
               // the overflow will not exceed the set limit
-              if (this.horizontalWholeOuterCounter > (this.props.maxOverflow || 0)) {
+              if (
+                this.horizontalWholeOuterCounter > (this.props.maxOverflow || 0)
+              ) {
                 this.horizontalWholeOuterCounter = this.props.maxOverflow || 0;
-              } else if (this.horizontalWholeOuterCounter < -(this.props.maxOverflow || 0)) {
-                this.horizontalWholeOuterCounter = -(this.props.maxOverflow || 0);
+              } else if (
+                this.horizontalWholeOuterCounter <
+                -(this.props.maxOverflow || 0)
+              ) {
+                this.horizontalWholeOuterCounter = -(
+                  this.props.maxOverflow || 0
+                );
               }
 
               if (this.horizontalWholeOuterCounter !== 0) {
                 // 如果溢出偏移量不是0，执行溢出回调
                 // If the overflow offset is not 0, execute the overflow callback
                 if (this.props.horizontalOuterRangeOffset) {
-                  this.props.horizontalOuterRangeOffset(this.horizontalWholeOuterCounter);
+                  this.props.horizontalOuterRangeOffset(
+                    this.horizontalWholeOuterCounter,
+                  );
                 }
               }
             }
@@ -339,7 +368,10 @@ export default class ImageViewer extends React.Component<Props, State> {
             } else {
               // swipeDown 不允许在已经有横向偏移量时触发
               // swipeDown is not allowed to trigger when there is already a horizontal offset
-              if (this.props.enableSwipeDown && !this.isHorizontalWrap) {
+              if (
+                this.props.enableSwipeDown ||
+                (this.props.enableSwipeUp && !this.isHorizontalWrap)
+              ) {
                 // 图片高度小于盒子高度，只能向下拖拽，而且一定是 swipeDown 动作
                 // The height of the picture is less than the height of the box, it can only be dragged down, and it must be a swipeDown action
                 this.swipeDownOffset += diffY;
@@ -392,7 +424,10 @@ export default class ImageViewer extends React.Component<Props, State> {
             // find the smallest x and the largest x
             let minX: number;
             let maxX: number;
-            if (evt.nativeEvent.changedTouches[0].locationX > evt.nativeEvent.changedTouches[1].locationX) {
+            if (
+              evt.nativeEvent.changedTouches[0].locationX >
+              evt.nativeEvent.changedTouches[1].locationX
+            ) {
               minX = evt.nativeEvent.changedTouches[1].pageX;
               maxX = evt.nativeEvent.changedTouches[0].pageX;
             } else {
@@ -402,7 +437,10 @@ export default class ImageViewer extends React.Component<Props, State> {
 
             let minY: number;
             let maxY: number;
-            if (evt.nativeEvent.changedTouches[0].locationY > evt.nativeEvent.changedTouches[1].locationY) {
+            if (
+              evt.nativeEvent.changedTouches[0].locationY >
+              evt.nativeEvent.changedTouches[1].locationY
+            ) {
               minY = evt.nativeEvent.changedTouches[1].pageY;
               maxY = evt.nativeEvent.changedTouches[0].pageY;
             } else {
@@ -412,11 +450,14 @@ export default class ImageViewer extends React.Component<Props, State> {
 
             const widthDistance = maxX - minX;
             const heightDistance = maxY - minY;
-            const diagonalDistance = Math.sqrt(widthDistance * widthDistance + heightDistance * heightDistance);
+            const diagonalDistance = Math.sqrt(
+              widthDistance * widthDistance + heightDistance * heightDistance,
+            );
             this.zoomCurrentDistance = Number(diagonalDistance.toFixed(1));
 
             if (this.zoomLastDistance !== null) {
-              const distanceDiff = (this.zoomCurrentDistance - this.zoomLastDistance) / 200;
+              const distanceDiff =
+                (this.zoomCurrentDistance - this.zoomLastDistance) / 200;
               let zoom = this.scale + distanceDiff;
 
               if (zoom < (this!.props!.minScale || 0)) {
@@ -475,13 +516,18 @@ export default class ImageViewer extends React.Component<Props, State> {
         // 如果是单个手指、距离上次按住大于预设秒、滑动距离小于预设值, 则可能是单击（如果后续双击间隔内没有开始手势）
         // If it is a single finger, the distance from the last press is greater than the preset second, and the sliding distance is less than the preset value, it may be a click (if there is no start gesture in the subsequent double-click interval)
         // const stayTime = new Date().getTime() - this.lastTouchStartTime!
-        const moveDistance = Math.sqrt(gestureState.dx * gestureState.dx + gestureState.dy * gestureState.dy);
-        const { locationX, locationY, pageX, pageY } = evt.nativeEvent;
+        const moveDistance = Math.sqrt(
+          gestureState.dx * gestureState.dx + gestureState.dy * gestureState.dy,
+        );
+        const {locationX, locationY, pageX, pageY} = evt.nativeEvent;
 
-        if (evt.nativeEvent.changedTouches.length === 1 && moveDistance < (this.props.clickDistance || 0)) {
+        if (
+          evt.nativeEvent.changedTouches.length === 1 &&
+          moveDistance < (this.props.clickDistance || 0)
+        ) {
           this.singleClickTimeout = setTimeout(() => {
             if (this.props.onClick) {
-              this.props.onClick({ locationX, locationY, pageX, pageY });
+              this.props.onClick({locationX, locationY, pageX, pageY});
             }
           }, this.props.doubleClickInterval);
         } else {
@@ -523,9 +569,10 @@ export default class ImageViewer extends React.Component<Props, State> {
     // swipeUp
 
     if (this.props.enableSwipeUp && this.props.swipeDownThreshold) {
-      if (this.swipeDownOffset < -200) {
+      if (this.swipeDownOffset < -100) {
         if (this.props.onSwipeUp) {
           this.props.onSwipeUp();
+          this.swipeDownOffset = 0;
         }
         // Stop reset.
         return;
@@ -568,7 +615,10 @@ export default class ImageViewer extends React.Component<Props, State> {
     if (this.props.imageHeight * this.scale > this.props.cropHeight) {
       // 纵向能容忍的绝对值
       // vertical tolerable absolute value
-      const verticalMax = (this.props.imageHeight * this.scale - this.props.cropHeight) / 2 / this.scale;
+      const verticalMax =
+        (this.props.imageHeight * this.scale - this.props.cropHeight) /
+        2 /
+        this.scale;
       if (this.positionY < -verticalMax) {
         this.positionY = -verticalMax;
       } else if (this.positionY > verticalMax) {
@@ -583,7 +633,10 @@ export default class ImageViewer extends React.Component<Props, State> {
     if (this.props.imageWidth * this.scale > this.props.cropWidth) {
       // 纵向能容忍的绝对值
       // vertical tolerable absolute value
-      const horizontalMax = (this.props.imageWidth * this.scale - this.props.cropWidth) / 2 / this.scale;
+      const horizontalMax =
+        (this.props.imageWidth * this.scale - this.props.cropWidth) /
+        2 /
+        this.scale;
       if (this.positionX < -horizontalMax) {
         this.positionX = -horizontalMax;
       } else if (this.positionX > horizontalMax) {
@@ -617,8 +670,7 @@ export default class ImageViewer extends React.Component<Props, State> {
     // swipeDown 溢出量置空
     // swipeDown overflow is empty
     this.swipeDownOffset = 0;
-
-    this.swipeUpOffset = 0;
+    this.swipeUpOffset = 100;
 
     this.imageDidMove('onPanResponderRelease');
   };
@@ -633,7 +685,9 @@ export default class ImageViewer extends React.Component<Props, State> {
     // Either centerOn has never been called, or it is a repeat and we should ignore it
     if (
       (nextProps.centerOn && !this.props.centerOn) ||
-      (nextProps.centerOn && this.props.centerOn && this.didCenterOnChange(this.props.centerOn, nextProps.centerOn))
+      (nextProps.centerOn &&
+        this.props.centerOn &&
+        this.didCenterOnChange(this.props.centerOn, nextProps.centerOn))
     ) {
       this.centerOn(nextProps.centerOn);
     }
@@ -652,10 +706,14 @@ export default class ImageViewer extends React.Component<Props, State> {
   }
 
   public didCenterOnChange(
-    params: { x: number; y: number; scale: number; duration: number },
-    paramsNext: { x: number; y: number; scale: number; duration: number },
+    params: {x: number; y: number; scale: number; duration: number},
+    paramsNext: {x: number; y: number; scale: number; duration: number},
   ) {
-    return params.x !== paramsNext.x || params.y !== paramsNext.y || params.scale !== paramsNext.scale;
+    return (
+      params.x !== paramsNext.x ||
+      params.y !== paramsNext.y ||
+      params.scale !== paramsNext.scale
+    );
   }
 
   public centerOn(params: ICenterOn) {
@@ -729,16 +787,14 @@ export default class ImageViewer extends React.Component<Props, State> {
           width: this.props.cropWidth,
           height: this.props.cropHeight,
         }}
-        {...this.imagePanResponder!.panHandlers}
-      >
+        {...this.imagePanResponder!.panHandlers}>
         <Animated.View style={animateConf} renderToHardwareTextureAndroid>
           <View
             onLayout={this.handleLayout.bind(this)}
             style={{
               width: this.props.imageWidth,
               height: this.props.imageHeight,
-            }}
-          >
+            }}>
             {this.props.children}
           </View>
         </Animated.View>
